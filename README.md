@@ -33,6 +33,6 @@ func main() {
 | :--- | :--- |
 | . |  unchanged input |
 | .foo |  value at key |
-| .foo.bar |  nested value at key |
+| .foo.bar |  value at nested key |
 
 
