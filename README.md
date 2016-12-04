@@ -68,11 +68,11 @@ The initial goal is to support all the selectors the original jq command line su
 | .string | "a" |
 | .number| 1.23 |
 | .simple | ["a", "b", "c"] |
-| .simple[0] | "a" |
-| .simple[0:1] | ["a","b"] |
-| .mixed[1] | 1
+| .simple.[0] | "a" |
+| .simple.[0:1] | ["a","b"] |
+| .mixed.[1] | 1
 | .object.first | "joe" |
-| .object.array[2] | 3 |
+| .object.array.[2] | 3 |
 
 ## Performance
 
