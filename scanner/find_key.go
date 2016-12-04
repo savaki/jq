@@ -2,6 +2,7 @@ package scanner
 
 import "bytes"
 
+// FindKey accepts a JSON object and returns the value associated with the key specified
 func FindKey(in []byte, pos int, k []byte) ([]byte, error) {
 	pos, err := skipSpace(in, pos)
 	if err != nil {

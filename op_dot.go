@@ -6,6 +6,8 @@ import (
 	"github.com/savaki/jq/scanner"
 )
 
+// Dot extract the specific key from the map provided; to extract a nested value, use the Dot Op in conjunction with the
+// Chain Op
 func Dot(key string) OpFunc {
 	key = strings.TrimSpace(key)
 	if key == "" {

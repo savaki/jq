@@ -1,5 +1,6 @@
 package jq
 
+// Chain executes a series of operations in the order provided
 func Chain(filters ...Op) OpFunc {
 	return func(in []byte) ([]byte, error) {
 		if filters == nil {

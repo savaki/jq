@@ -1,5 +1,6 @@
 package scanner
 
+// Number returns the end position of the number that begins at the specified pos
 func Number(in []byte, pos int) (int, error) {
 	pos, err := skipSpace(in, pos)
 	if err != nil {

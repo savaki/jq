@@ -2,6 +2,7 @@ package scanner
 
 import "errors"
 
+// Any returns the position of the end of the current element that begins at pos; handles any valid json element
 func Any(in []byte, pos int) (int, error) {
 	pos, err := skipSpace(in, pos)
 	if err != nil {

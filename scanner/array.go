@@ -1,5 +1,6 @@
 package scanner
 
+// Array returns the position of the end of the array that begins at the position specified
 func Array(in []byte, pos int) (int, error) {
 	pos, err := skipSpace(in, pos)
 	if err != nil {

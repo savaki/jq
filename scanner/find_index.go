@@ -1,5 +1,6 @@
 package scanner
 
+// FindIndex accepts a JSON array and return the value of the element at the specified index
 func FindIndex(in []byte, pos, index int) ([]byte, error) {
 	pos, err := skipSpace(in, pos)
 	if err != nil {

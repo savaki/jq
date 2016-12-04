@@ -2,6 +2,7 @@ package scanner
 
 import "errors"
 
+// String returns the position of the string that begins at the specified pos
 func String(in []byte, pos int) (int, error) {
 	pos, err := skipSpace(in, pos)
 	if err != nil {

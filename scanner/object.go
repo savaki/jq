@@ -1,5 +1,6 @@
 package scanner
 
+// Object returns the position of the end of the object that begins at the specified pos
 func Object(in []byte, pos int) (int, error) {
 	pos, err := skipSpace(in, pos)
 	if err != nil {
