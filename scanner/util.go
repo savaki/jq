@@ -11,6 +11,7 @@ var (
 	errUnexpectedEOF    = errors.New("unexpected EOF")
 	errKeyNotFound      = errors.New("key not found")
 	errIndexOutOfBounds = errors.New("index out of bounds")
+	errToLessThanFrom   = errors.New("to index less than from index")
 )
 
 func skipSpace(in []byte, pos int) (int, error) {

@@ -25,6 +25,26 @@ func TestParse(t *testing.T) {
 				Op:       ".a.b",
 				Expected: `"world"`,
 			},
+			"index": {
+				In:       `["a","b","c"]`,
+				Op:       ".[1]",
+				Expected: `"b"`,
+			},
+			"range": {
+				In:       `["a","b","c"]`,
+				Op:       ".[1:2]",
+				Expected: `["b","c"]`,
+			},
+			"nested index": {
+				In:       `{"abc":"-","def":["a","b","c"]}`,
+				Op:       ".def.[1]",
+				Expected: `"b"`,
+			},
+			"nested range": {
+				In:       `{"abc":"-","def":["a","b","c"]}`,
+				Op:       ".def.[1:2]",
+				Expected: `["b","c"]`,
+			},
 		}
 
 		for label, tc := range testCases {

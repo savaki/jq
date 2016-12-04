@@ -25,12 +25,36 @@ func BenchmarkAny(t *testing.B) {
 }
 
 func TestAny(t *testing.T) {
-	text := `  "hello"`
 	Convey("Verify trims space", t, func() {
-		end, err := scanner.Any([]byte(text), 0)
-		So(err, ShouldBeNil)
+		testCases := map[string]struct {
+			In  string
+			Out string
+		}{
+			"string": {
+				In:  `"hello"`,
+				Out: `"hello"`,
+			},
+			"array": {
+				In:  `["a","b","c"]`,
+				Out: `["a","b","c"]`,
+			},
+			"object": {
+				In:  `{"a":"b"}`,
+				Out: `{"a":"b"}`,
+			},
+			"number": {
+				In:  `1.234e+10`,
+				Out: `1.234e+10`,
+			},
+		}
 
-		any := text[0:end]
-		So(string(any), ShouldEqual, text)
+		for label, tc := range testCases {
+			Convey(label, func() {
+				end, err := scanner.Any([]byte(tc.In), 0)
+				So(err, ShouldBeNil)
+				data := tc.In[0:end]
+				So(string(data), ShouldEqual, tc.Out)
+			})
+		}
 	})
 }

@@ -17,7 +17,7 @@ func BenchmarkFindKey(t *testing.B) {
 			return
 		}
 
-		if string(out) != "world" {
+		if string(out) != `"world"` {
 			t.FailNow()
 			return
 		}

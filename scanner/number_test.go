@@ -7,6 +7,23 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+func BenchmarkNumber(t *testing.B) {
+	data := []byte(`12.34e+9`)
+
+	for i := 0; i < t.N; i++ {
+		end, err := scanner.Number(data, 0)
+		if err != nil {
+			t.FailNow()
+			return
+		}
+
+		if end == 0 {
+			t.FailNow()
+			return
+		}
+	}
+}
+
 func TestNumber(t *testing.T) {
 	Convey("Verify String", t, func() {
 		testCases := map[string]struct {

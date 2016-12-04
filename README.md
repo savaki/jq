@@ -37,5 +37,23 @@ func main() {
 | . |  unchanged input |
 | .foo |  value at key |
 | .foo.bar |  value at nested key |
+| .[0] | value at specified element of array | 
+| .[0:1] | array of specified elements of array, inclusive |
+| .foo.[0] | nest value |
 
+## Performance
+
+```
+BenchmarkChain-8   	 5000000	       285 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDot-8     	20000000	       115 ns/op	       0 B/op	       0 allocs/op
+
+BenchmarkAny-8         	20000000	        80.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkArray-8       	20000000	       108 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFindIndex-8   	10000000	       125 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFindKey-8     	10000000	       125 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFindRange-8   	10000000	       186 ns/op	      16 B/op	       1 allocs/op
+BenchmarkNumber-8      	50000000	        28.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkObject-8      	20000000	        98.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkString-8      	30000000	        40.4 ns/op	       0 B/op	       0 allocs/op
+```
 
