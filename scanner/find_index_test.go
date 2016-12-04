@@ -18,7 +18,6 @@ import (
 	"testing"
 
 	"github.com/savaki/jq/scanner"
-	. "github.com/smartystreets/goconvey/convey"
 )
 
 func BenchmarkFindIndex(t *testing.B) {
@@ -39,40 +38,44 @@ func BenchmarkFindIndex(t *testing.B) {
 }
 
 func TestFindIndex(t *testing.T) {
-	Convey("Verify FindIndex", t, func() {
-		testCases := map[string]struct {
-			In       string
-			Index    int
-			Expected string
-			HasErr   bool
-		}{
-			"simple": {
-				In:       `["hello","world"]`,
-				Index:    1,
-				Expected: `"world"`,
-			},
-			"spaced": {
-				In:       ` [ "hello" , "world" ] `,
-				Index:    1,
-				Expected: `"world"`,
-			},
-			"all types": {
-				In:       ` [ "hello" , 123, {"hello":"world"} ] `,
-				Index:    2,
-				Expected: `{"hello":"world"}`,
-			},
-		}
+	testCases := map[string]struct {
+		In       string
+		Index    int
+		Expected string
+		HasErr   bool
+	}{
+		"simple": {
+			In:       `["hello","world"]`,
+			Index:    1,
+			Expected: `"world"`,
+		},
+		"spaced": {
+			In:       ` [ "hello" , "world" ] `,
+			Index:    1,
+			Expected: `"world"`,
+		},
+		"all types": {
+			In:       ` [ "hello" , 123, {"hello":"world"} ] `,
+			Index:    2,
+			Expected: `{"hello":"world"}`,
+		},
+	}
 
-		for label, tc := range testCases {
-			Convey(label, func() {
-				data, err := scanner.FindIndex([]byte(tc.In), 0, tc.Index)
-				if tc.HasErr {
-					So(err, ShouldNotBeNil)
-				} else {
-					So(string(data), ShouldEqual, tc.Expected)
-					So(err, ShouldBeNil)
+	for label, tc := range testCases {
+		t.Run(label, func(t *testing.T) {
+			data, err := scanner.FindIndex([]byte(tc.In), 0, tc.Index)
+			if tc.HasErr {
+				if err == nil {
+					t.FailNow()
 				}
-			})
-		}
-	})
+			} else {
+				if string(data) != tc.Expected {
+					t.FailNow()
+				}
+				if err != nil {
+					t.FailNow()
+				}
+			}
+		})
+	}
 }

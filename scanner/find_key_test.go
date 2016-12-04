@@ -18,7 +18,6 @@ import (
 	"testing"
 
 	"github.com/savaki/jq/scanner"
-	. "github.com/smartystreets/goconvey/convey"
 )
 
 func BenchmarkFindKey(t *testing.B) {
@@ -39,35 +38,39 @@ func BenchmarkFindKey(t *testing.B) {
 }
 
 func TestFindKey(t *testing.T) {
-	Convey("Verify FindKey", t, func() {
-		testCases := map[string]struct {
-			In       string
-			Key      string
-			Expected string
-			HasErr   bool
-		}{
-			"simple": {
-				In:       `{"hello":"world"}`,
-				Key:      "hello",
-				Expected: `"world"`,
-			},
-			"spaced": {
-				In:       ` { "hello" : "world" } `,
-				Key:      "hello",
-				Expected: `"world"`,
-			},
-		}
+	testCases := map[string]struct {
+		In       string
+		Key      string
+		Expected string
+		HasErr   bool
+	}{
+		"simple": {
+			In:       `{"hello":"world"}`,
+			Key:      "hello",
+			Expected: `"world"`,
+		},
+		"spaced": {
+			In:       ` { "hello" : "world" } `,
+			Key:      "hello",
+			Expected: `"world"`,
+		},
+	}
 
-		for label, tc := range testCases {
-			Convey(label, func() {
-				data, err := scanner.FindKey([]byte(tc.In), 0, []byte(tc.Key))
-				if tc.HasErr {
-					So(err, ShouldNotBeNil)
-				} else {
-					So(string(data), ShouldEqual, tc.Expected)
-					So(err, ShouldBeNil)
+	for label, tc := range testCases {
+		t.Run(label, func(t *testing.T) {
+			data, err := scanner.FindKey([]byte(tc.In), 0, []byte(tc.Key))
+			if tc.HasErr {
+				if err == nil {
+					t.FailNow()
 				}
-			})
-		}
-	})
+			} else {
+				if string(data) != tc.Expected {
+					t.FailNow()
+				}
+				if err != nil {
+					t.FailNow()
+				}
+			}
+		})
+	}
 }

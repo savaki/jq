@@ -18,7 +18,6 @@ import (
 	"testing"
 
 	"github.com/savaki/jq/scanner"
-	. "github.com/smartystreets/goconvey/convey"
 )
 
 func BenchmarkObject(t *testing.B) {
@@ -39,33 +38,37 @@ func BenchmarkObject(t *testing.B) {
 }
 
 func TestObject(t *testing.T) {
-	Convey("Verify Object", t, func() {
-		testCases := map[string]struct {
-			In     string
-			Out    string
-			HasErr bool
-		}{
-			"simple": {
-				In:  `{"hello":"world"}`,
-				Out: `{"hello":"world"}`,
-			},
-			"spaced": {
-				In:  ` { "hello" : "world" } `,
-				Out: ` { "hello" : "world" }`,
-			},
-		}
+	testCases := map[string]struct {
+		In     string
+		Out    string
+		HasErr bool
+	}{
+		"simple": {
+			In:  `{"hello":"world"}`,
+			Out: `{"hello":"world"}`,
+		},
+		"spaced": {
+			In:  ` { "hello" : "world" } `,
+			Out: ` { "hello" : "world" }`,
+		},
+	}
 
-		for label, tc := range testCases {
-			Convey(label, func() {
-				end, err := scanner.Object([]byte(tc.In), 0)
-				if tc.HasErr {
-					So(err, ShouldNotBeNil)
-				} else {
-					data := tc.In[0:end]
-					So(string(data), ShouldEqual, tc.Out)
-					So(err, ShouldBeNil)
+	for label, tc := range testCases {
+		t.Run(label, func(t *testing.T) {
+			end, err := scanner.Object([]byte(tc.In), 0)
+			if tc.HasErr {
+				if err == nil {
+					t.FailNow()
 				}
-			})
-		}
-	})
+			} else {
+				data := tc.In[0:end]
+				if string(data) != tc.Out {
+					t.FailNow()
+				}
+				if err != nil {
+					t.FailNow()
+				}
+			}
+		})
+	}
 }

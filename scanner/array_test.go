@@ -18,7 +18,6 @@ import (
 	"testing"
 
 	"github.com/savaki/jq/scanner"
-	. "github.com/smartystreets/goconvey/convey"
 )
 
 func BenchmarkArray(t *testing.B) {
@@ -39,37 +38,42 @@ func BenchmarkArray(t *testing.B) {
 }
 
 func TestArray(t *testing.T) {
-	Convey("Verify Array", t, func() {
-		testCases := map[string]struct {
-			In     string
-			Out    string
-			HasErr bool
-		}{
-			"simple": {
-				In:  `["hello","world"]`,
-				Out: `["hello","world"]`,
-			},
-			"spaced": {
-				In:  ` [ "hello" , "world" ] `,
-				Out: ` [ "hello" , "world" ]`,
-			},
-			"all types": {
-				In:  ` [ "hello" , 123, {"hello":"world"} ] `,
-				Out: ` [ "hello" , 123, {"hello":"world"} ]`,
-			},
-		}
+	testCases := map[string]struct {
+		In     string
+		Out    string
+		HasErr bool
+	}{
+		"simple": {
+			In:  `["hello","world"]`,
+			Out: `["hello","world"]`,
+		},
+		"spaced": {
+			In:  ` [ "hello" , "world" ] `,
+			Out: ` [ "hello" , "world" ]`,
+		},
+		"all types": {
+			In:  ` [ "hello" , 123, {"hello":"world"} ] `,
+			Out: ` [ "hello" , 123, {"hello":"world"} ]`,
+		},
+	}
 
-		for label, tc := range testCases {
-			Convey(label, func() {
-				end, err := scanner.Array([]byte(tc.In), 0)
-				if tc.HasErr {
-					So(err, ShouldNotBeNil)
-				} else {
-					data := tc.In[0:end]
-					So(string(data), ShouldEqual, tc.Out)
-					So(err, ShouldBeNil)
+	for label, tc := range testCases {
+		t.Run(label, func(t *testing.T) {
+			end, err := scanner.Array([]byte(tc.In), 0)
+			if tc.HasErr {
+				if err == nil {
+					t.FailNow()
 				}
-			})
-		}
-	})
+
+			} else {
+				data := tc.In[0:end]
+				if string(data) != tc.Out {
+					t.FailNow()
+				}
+				if err != nil {
+					t.FailNow()
+				}
+			}
+		})
+	}
 }

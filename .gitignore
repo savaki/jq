@@ -28,3 +28,6 @@ _testmain.go
 *.iml
 *.ipr
 *.iws
+
+# ignore scratch files
+sample.json
