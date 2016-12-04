@@ -1,5 +1,8 @@
 # jq
 
+[![GoDoc](https://godoc.org/github.com/savaki/jq?status.svg)](https://godoc.org/github.com/savaki/jq)
+[![Build Status](https://snap-ci.com/savaki/jq/branch/master/build_image)](https://snap-ci.com/savaki/jq/branch/master)
+
 Golang implementation of incredibly useful jq command line tool.
 
 ## Installation
