@@ -43,6 +43,37 @@ The initial goal is to support all the selectors the original jq command line su
 | .[0:1] | array of specified elements of array, inclusive |
 | .foo.[0] | nested value |
 
+## Examples
+
+### Data
+```json
+{
+  "string": "a",
+  "number": 1.23,
+  "simple": ["a", "b", "c"],
+  "mixed": [
+    "a",
+    1,
+    {"hello":"world"}
+  ],
+  "object": {
+    "first": "joe",
+    "array": [1,2,3]
+  }
+}
+```
+
+| syntax | value |
+| :--- | :--- |
+| .string | "a" |
+| .number| 1.23 |
+| .simple | ["a", "b", "c"] |
+| .simple[0] | "a" |
+| .simple[0:1] | ["a","b"] |
+| .mixed[1] | 1
+| .object.first | "joe" |
+| .object.array[2] | 3 |
+
 ## Performance
 
 ```
