@@ -23,9 +23,9 @@ import (
 )
 
 func main() {
-	data := []byte(`{"hello":"world"}`)
-	op, _ := jq.Parse(".hello")
-	value, _ := op.Apply(data) // value == '"world"'
+	op, _ := jq.Parse(".hello")           // create an Op
+	data := []byte(`{"hello":"world"}`)   // sample input
+	value, _ := op.Apply(data)            // value == '"world"'
 	fmt.Println(string(value))
 }
 ```
