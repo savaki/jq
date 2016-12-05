@@ -14,8 +14,6 @@
 
 package scanner
 
-import "errors"
-
 // Any returns the position of the end of the current element that begins at pos; handles any valid json element
 func Any(in []byte, pos int) (int, error) {
 	pos, err := skipSpace(in, pos)
@@ -37,6 +35,15 @@ func Any(in []byte, pos int) (int, error) {
 	case 'n':
 		return Null(in, pos)
 	default:
-		return 0, errors.New("invalid object")
+		max := len(in) - pos
+		if max > 20 {
+			max = 20
+		}
+
+		return 0, opErr{
+			pos:     pos,
+			msg:     "invalid object",
+			content: string(in[pos : pos+max]),
+		}
 	}
 }

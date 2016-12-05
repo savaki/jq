@@ -47,6 +47,10 @@ func TestObject(t *testing.T) {
 			In:  `{"hello":"world"}`,
 			Out: `{"hello":"world"}`,
 		},
+		"empty": {
+			In:  `{}`,
+			Out: `{}`,
+		},
 		"spaced": {
 			In:  ` { "hello" : "world" } `,
 			Out: ` { "hello" : "world" }`,

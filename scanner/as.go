@@ -26,6 +26,16 @@ func AsArray(in []byte, pos int) ([][]byte, error) {
 	}
 	pos++
 
+	// clean initial spaces
+	pos, err = skipSpace(in, pos)
+	if err != nil {
+		return nil, err
+	}
+
+	if in[pos] == ']' {
+		return [][]byte{}, nil
+	}
+
 	// 1. Count the number of elements in the array
 
 	start := pos

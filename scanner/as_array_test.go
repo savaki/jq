@@ -47,6 +47,10 @@ func TestAsArray(t *testing.T) {
 			In:  `["hello","world"]`,
 			Out: []string{`"hello"`, `"world"`},
 		},
+		"empty": {
+			In:  `[]`,
+			Out: []string{},
+		},
 		"spaced": {
 			In:  ` [ "hello" , "world" ] `,
 			Out: []string{`"hello"`, `"world"`},

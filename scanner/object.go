@@ -26,6 +26,16 @@ func Object(in []byte, pos int) (int, error) {
 	}
 	pos++
 
+	// clean initial spaces
+	pos, err = skipSpace(in, pos)
+	if err != nil {
+		return 0, err
+	}
+
+	if in[pos] == '}' {
+		return pos + 1, nil
+	}
+
 	for {
 		// key
 		pos, err = String(in, pos)
