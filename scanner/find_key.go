@@ -43,8 +43,14 @@ func FindKey(in []byte, pos int, k []byte) ([]byte, error) {
 		key := in[keyStart+1 : pos-1]
 		match := bytes.Equal(k, key)
 
+		// leading spaces
+		pos, err = skipSpace(in, pos)
+		if err != nil {
+			return nil, err
+		}
+
 		// colon
-		pos, err = expectByte(in, pos, ':')
+		pos, err = expect(in, pos, ':')
 		if err != nil {
 			return nil, err
 		}

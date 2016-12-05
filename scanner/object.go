@@ -33,8 +33,14 @@ func Object(in []byte, pos int) (int, error) {
 			return 0, err
 		}
 
+		// leading spaces
+		pos, err = skipSpace(in, pos)
+		if err != nil {
+			return 0, err
+		}
+
 		// colon
-		pos, err = expectByte(in, pos, ':')
+		pos, err = expect(in, pos, ':')
 		if err != nil {
 			return 0, err
 		}

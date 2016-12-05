@@ -26,6 +26,7 @@ var (
 	errKeyNotFound      = errors.New("key not found")
 	errIndexOutOfBounds = errors.New("index out of bounds")
 	errToLessThanFrom   = errors.New("to index less than from index")
+	errUnexpectedValue  = errors.New("unexpected value")
 )
 
 func skipSpace(in []byte, pos int) (int, error) {
@@ -43,17 +44,19 @@ func skipSpace(in []byte, pos int) (int, error) {
 	return pos, nil
 }
 
-func expectByte(in []byte, pos int, expected byte) (int, error) {
-	pos, err := skipSpace(in, pos)
-	if err != nil {
-		return 0, err
+func expect(in []byte, pos int, content ...byte) (int, error) {
+	if pos+len(content) > len(in) {
+		return 0, errUnexpectedEOF
 	}
 
-	if v := in[pos]; v != expected {
-		return 0, newError(pos, v)
+	for _, b := range content {
+		if v := in[pos]; v != b {
+			return 0, errUnexpectedValue
+		}
+		pos++
 	}
 
-	return pos + 1, nil
+	return pos, nil
 }
 
 func newError(pos int, b byte) error {
