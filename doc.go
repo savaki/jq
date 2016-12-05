@@ -8,9 +8,11 @@
 // This will create an Op that will accept a JSON object in []byte format and return the value associated with "key."
 // For example:
 //
-//     data, _ := op.Apply([]byte(`{"key":"value"}`))
+//     in := []byte(`{"key":"value"}`)
+//     data, _ := op.Apply(in))
 //     fmt.Println(string(data))
 //
-// Will print the string ```"value"```
+// Will print the string "value".  The goal is to support all the select operations supported by jq's command line
+// namesake.
 //
 package jq
