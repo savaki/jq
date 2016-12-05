@@ -6,5 +6,11 @@
 //     op, err := jq.Parse(".key")
 //
 // This will create an Op that will accept a JSON object in []byte format and return the value associated with "key."
+// For example:
+//
+//     data, _ := op.Apply([]byte(`{"key":"value"}`))
+//     fmt.Println(string(data))
+//
+// Will print the string ```"value"```
 //
 package jq
