@@ -5,6 +5,12 @@
 
 A high performance Golang implementation of the incredibly useful jq command line tool.
 
+Rather than marshalling json elements into go instances, jq opts to manipulate the json elements as raw []byte.  This
+is especially useful for apps that need to handle dynamic json data.
+
+Using jq consists of creation an ```Op``` and then calling ```Apply``` on the ```Op``` to transform one []byte into the 
+desired []byte.  Ops may be chained together to form a transformation chain similar to how the command line jq works.   
+
 ## Installation
 
 ```
