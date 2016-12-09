@@ -15,6 +15,7 @@
 package jq
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -23,6 +24,15 @@ import (
 var (
 	reArray = regexp.MustCompile(`^\s*\[\s*(\d+)(\s*:\s*(\d+))?\s*]\s*$`)
 )
+
+// Must is a convenience method similar to template.Must
+func Must(op Op, err error) Op {
+	if err != nil {
+		panic(fmt.Errorf("unable to parse selector; %v", err.Error()))
+	}
+
+	return op
+}
 
 // Parse takes a string representation of a selector and returns the corresponding Op definition
 func Parse(selector string) (Op, error) {
