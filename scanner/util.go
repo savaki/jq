@@ -26,6 +26,7 @@ var (
 	errKeyNotFound      = errors.New("key not found")
 	errIndexOutOfBounds = errors.New("index out of bounds")
 	errToLessThanFrom   = errors.New("to index less than from index")
+	errFromOutOfBounds  = errors.New("from index out of bounds")
 	errUnexpectedValue  = errors.New("unexpected value")
 )
 
