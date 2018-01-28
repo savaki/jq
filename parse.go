@@ -22,7 +22,7 @@ import (
 )
 
 var (
-	reArray = regexp.MustCompile(`^\s*\[\s*(\d+)(\s*:\s*(\d+))?\s*]\s*$`)
+	reArray = regexp.MustCompile(`^\s*\[\s*(?:(\d+))?\s*(?:(:))?\s*(?:(\d+))?\s*\]\s*$`)
 )
 
 // Must is a convenience method similar to template.Must
@@ -57,26 +57,55 @@ func Parse(selector string) (Op, error) {
 }
 
 func parseArray(key string) (Op, bool) {
-	match := reArray.FindAllStringSubmatch(key, -1)
-	if len(match) != 1 {
+	match := FindIndices(key)
+
+	if len(match) == 0 {
 		return nil, false
 	}
 
-	fromStr := match[0][1]
-	from, err := strconv.Atoi(fromStr)
+	matches := match[0]
+
+	if matches[1]+matches[2]+matches[3] == "" {
+		return From(0), true
+	}
+
+	if matches[2] == "" {
+		idx, err := strconv.Atoi(matches[1])
+		if err != nil {
+			return nil, false
+		}
+		return Index(idx), true
+	}
+
+	if matches[1] == "" {
+		to, err := strconv.Atoi(matches[3])
+		if err != nil {
+			return nil, false
+		}
+		return To(to), true
+	}
+
+	if matches[3] == "" {
+		from, err := strconv.Atoi(matches[1])
+		if err != nil {
+			return nil, false
+		}
+		return From(from), true
+	}
+
+	from, err := strconv.Atoi(matches[1])
 	if err != nil {
 		return nil, false
 	}
 
-	toStr := match[0][3]
-	if toStr == "" {
-		return Index(from), true
-	}
-
-	to, err := strconv.Atoi(toStr)
+	to, err := strconv.Atoi(matches[3])
 	if err != nil {
 		return nil, false
 	}
 
 	return Range(from, to), true
+}
+
+func FindIndices(key string) [][]string {
+	return reArray.FindAllStringSubmatch(key, -1)
 }

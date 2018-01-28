@@ -47,6 +47,21 @@ func TestParse(t *testing.T) {
 			Op:       ".[1:2]",
 			Expected: `["b","c"]`,
 		},
+		"from": {
+			In:       `["a","b","c","d"]`,
+			Op:       ".[1:]",
+			Expected: `["b","c","d"]`,
+		},
+		"to": {
+			In:       `["a","b","c","d"]`,
+			Op:       ".[:2]",
+			Expected: `["a","b","c"]`,
+		},
+		"all": {
+			In:       `["a","b","c","d"]`,
+			Op:       ".[]",
+			Expected: `["a","b","c","d"]`,
+		},
 		"nested index": {
 			In:       `{"abc":"-","def":["a","b","c"]}`,
 			Op:       ".def.[1]",
@@ -82,3 +97,47 @@ func TestParse(t *testing.T) {
 		})
 	}
 }
+
+//func TestFindIndices(t *testing.T) {
+//	testCases := map[string]struct {
+//		In     string
+//		Expect []string
+//	}{
+//		"simple": {
+//			In:     "[0]",
+//			Expect: []string{"0"},
+//		},
+//		"range": {
+//			In:     "[0:1]",
+//			Expect: []string{"0"},
+//		},
+//		"from": {
+//			In:     "[1:]",
+//			Expect: []string{"0"},
+//		},
+//		"to": {
+//			In:     "[:1]",
+//			Expect: []string{"0"},
+//		},
+//	}
+//	for label, tc := range testCases {
+//		t.Run(label, func(t *testing.T) {
+//			matches := jq.FindIndices(tc.In)
+//			t.Logf("%#v", matches[0])
+//			if len(matches) == 0 {
+//				t.Log("no matches")
+//				t.FailNow()
+//			}
+//			if len(matches[0]) != len(tc.Expect) {
+//				t.Log("count mismatch")
+//				t.FailNow()
+//			}
+//			for k, v := range tc.Expect {
+//				if v != matches[0][k] {
+//					t.Log("expected mismatch")
+//					t.FailNow()
+//				}
+//			}
+//		})
+//	}
+//}
